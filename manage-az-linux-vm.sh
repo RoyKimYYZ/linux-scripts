@@ -9,13 +9,13 @@ az group list -o table
 rgName='linux-demos'
 location='canadacentral'
 az group create --name $rgName --location $location
-az group list 
+az group list -o table
 vmName='rkLinux'
 az vm create \
   --resource-group $rgName \
   --location $location \
   --name rkLinux \
-  --image UbuntuLTS \
+  --image UbuntuLTS \az
   --admin-username azureuser \
   --generate-ssh-keys
 
@@ -26,9 +26,13 @@ ssh azureuser@52.138.9.27
 #sudo apt-get -y update
 #sudo apt-get -y install nginx
 
+az vm list -o table
+rgName=LINUX-DEMOS
+vmName=rkLinux
 az vm list-ip-addresses --resource-group myResourceGroupVM --name myVM --output table
 az vm deallocate -g $rgName -n $vmName
-az vm start --resource-group myResourceGroupVM --name myVM
+az vm show -n $vmName -g $rgName
+az vm start -g $rgName -n $vmName 
 # https://docs.microsoft.com/en-us/azure/virtual-machines/linux/tutorial-manage-disks
 az vm create \
   --resource-group myResourceGroupDisk \
@@ -45,8 +49,23 @@ az vm disk attach \
     --sku Premium_LRS \
     --new
 
+
+az vm show -n $vmName -g $rgName
+az vm list-ip-addresses -n $vmName -g $rgName # --query "{publicIpAddresses}" -o tsv
+
+ssh azureuser@publicIpAddress
+
+
 # bash in vm
 (echo n; echo p; echo 1; echo ; echo ; echo w) | sudo fdisk /dev/sdc
+
+
+# 
+az vm start
+az vm start [--ids]
+            [--name]
+            [--no-wait]
+            [--resource-group]
 
 
 
