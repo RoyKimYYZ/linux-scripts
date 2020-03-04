@@ -52,20 +52,9 @@ az vm disk attach \
 
 az vm show -n $vmName -g $rgName
 az vm list-ip-addresses -n $vmName -g $rgName # --query "{publicIpAddresses}" -o tsv
-
-ssh azureuser@publicIpAddress
-
+VMPublicIP=52.228.39.12
+ssh azureuser@$VMPublicIP
 
 # bash in vm
 (echo n; echo p; echo 1; echo ; echo ; echo w) | sudo fdisk /dev/sdc
-
-
-# 
-az vm start
-az vm start [--ids]
-            [--name]
-            [--no-wait]
-            [--resource-group]
-
-
 
