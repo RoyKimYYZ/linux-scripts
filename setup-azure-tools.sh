@@ -23,7 +23,7 @@ Install-Module -Name Az -AllowClobber -Scope CurrentUser
 # Update Azure PowerShell
 # Install-Module -Name Az -AllowClobber -Force
 
-### Install Azure AD (Note: Not compatible with linux yet
+### Install Azure AD (Note: Not compatible with linux yet)
 # Install-module AzureAD -Verbose
 # Optional Workaround
 # Register-PackageSource -Trusted -ProviderName 'PowerShellGet' -Name 'Posh Test Gallery' -Location https://www.poshtestgallery.com/api/v2/
@@ -36,7 +36,7 @@ az extension add --name resource-graph
 az extension list
 az graph query -q 'Resources | project name, type | limit 5' -o table
 
-### Git (install or update)
+### Install or Update Git
 sudo add-apt-repository -y ppa:git-core/ppa
 sudo apt-get update
 sudo apt-get install git -y
