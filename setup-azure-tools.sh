@@ -40,7 +40,10 @@ sudo add-apt-repository -y ppa:git-core/ppa
 sudo apt-get update
 sudo apt-get install git -y
 git --version
-                                                                    
+
+# bash-completion package 
+sudo apt install bash-completion
+
 ### Install Homebrew package manager
 sudo apt-get update && sudo apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
