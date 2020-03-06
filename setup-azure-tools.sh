@@ -29,7 +29,6 @@ Install-Module -Name Az -AllowClobber -Scope CurrentUser
 # Register-PackageSource -Trusted -ProviderName 'PowerShellGet' -Name 'Posh Test Gallery' -Location https://www.poshtestgallery.com/api/v2/
 # Install-Module -Name AzureAD.Standard.Preview
 
-
 ## Azure Resource Graph
 # Add the Resource Graph extension to the Azure CLI environment
 az extension add --name resource-graph
