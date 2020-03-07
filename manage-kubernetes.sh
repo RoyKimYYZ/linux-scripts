@@ -7,10 +7,19 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/
 sudo apt-get update
 sudo apt-get install -y kubectl
 
+# AKS
+rgName='rkfunctionapp-sql'
+aksName='rkaks'
+location='canadacentral'
+
+az aks get-credentials -g $rgName -n $aksName
+
 # pods
-kubectl get pods | grep ready
+kubectl get pods | grep Running
 
 # external ip
 kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'
+
+
 
 # troubleshooting
