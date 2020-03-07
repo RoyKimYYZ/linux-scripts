@@ -14,6 +14,9 @@ location='canadacentral'
 
 az aks get-credentials -g $rgName -n $aksName
 
+# 
+kubectl get all -o wide | more
+
 # pods
 kubectl get pods | grep Running
 
