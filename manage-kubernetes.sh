@@ -9,16 +9,21 @@ location='canadacentral'
 
 az aks list -g $rgName -o table 
 az aks get-credentials -g $rgName -n $aksName
+az aks browse -g $rgName -n $aksName
 
 # Get all kubectl objects
 kubectl get all -o wide | more
 
+# Local Context
 kubectl config current-context
+kubectl config get-contexts 
+kubectl config get-contexts -o name 
 
 # namespaces
 
 
 # nodes
+kubectl get nodes | grep "Ready"
 
 # pods
 kubectl get po
@@ -30,7 +35,7 @@ kubectl get pods --sort-by='.status.containerStatuses[0].restartCount'
 kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'
 
 # memory usage
-kubectl top pod -A --no-headers=true | awk '{a[$1] += $4} END {for (c in a) printf "%-35s %s\n", c, a[c]}'
+kubectl top pod -A | awk '{a[$1] += $4} END {for (c in a) printf "%-35s %s\n", c, a[c]}'
 
 # Port forwarding
 kubectl port-forward redis-izl09 6379
@@ -40,6 +45,11 @@ kubectl exec redis-izl09 -- ls /
 
 # Kubernetes config
 kubectl config view
+
+# Kubernetes dashboard
+kubectl get secrets -n kube-system | grep dashboard-token 
+
+kubectl describe secret kubernetes-dashboard-token-pqcrg -n kube-system
 
 # troubleshooting
 ###################
@@ -62,3 +72,12 @@ watch kubectl top pods
 
 # k8s documentation
 kubectl explain pods
+
+# functions; 
+function helloworld() { echo "hello wolrd $@"; command kubectl}
+
+
+# sed example
+echo 'hello world ' | sed 's/hello/world/'
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/#updating-resources
+kubectl get pod mypod -o yaml | sed 's/\(image: myimage\):.*$/\1:v4/' | kubectl replace -f -
