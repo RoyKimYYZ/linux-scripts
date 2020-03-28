@@ -13,10 +13,18 @@ az aks get-credentials -g $rgName -n $aksName
 # Get all kubectl objects
 kubectl get all -o wide | more
 
-kubectl explain pods
+kubectl config current-context
+
+# namespaces
+
+
+# nodes
 
 # pods
+kubectl get po
 kubectl get pods | grep Running
+# sorty by restart count
+kubectl get pods --sort-by='.status.containerStatuses[0].restartCount'
 
 # external ip
 kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'
@@ -29,6 +37,9 @@ kubectl port-forward redis-izl09 6379
 
 # Exec in container
 kubectl exec redis-izl09 -- ls /
+
+# Kubernetes config
+kubectl config view
 
 # troubleshooting
 ###################
@@ -48,3 +59,6 @@ kubectl get po --all-namespaces -o=custom-columns=NAME:.metadata.name,USER:.meta
 # watch
 watch kubectl top nodes
 watch kubectl top pods
+
+# k8s documentation
+kubectl explain pods
