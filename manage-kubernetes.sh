@@ -1,5 +1,5 @@
+#!/bin/bash
 # manage-kubernetes.sh
-
 
 
 # AKS
@@ -46,10 +46,17 @@ kubectl exec redis-izl09 -- ls /
 # Kubernetes config
 kubectl config view
 
-# Kubernetes dashboard
+## Kubernetes dashboard
 kubectl get secrets -n kube-system | grep dashboard-token 
+kubectl get secrets -n kube-system -o json
+TOKEN=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 --decode)
+echo $TOKEN
+# Explore the API with TOKEN
+curl -X GET $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
 
 kubectl describe secret kubernetes-dashboard-token-pqcrg -n kube-system
+
+kubectl exec -it  azure-vote-front-66966b9dd7-9lhtx -- /bin/bash
 
 # troubleshooting
 ###################
@@ -81,3 +88,4 @@ function helloworld() { echo "hello wolrd $@"; command kubectl}
 echo 'hello world ' | sed 's/hello/world/'
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/#updating-resources
 kubectl get pod mypod -o yaml | sed 's/\(image: myimage\):.*$/\1:v4/' | kubectl replace -f -
+
