@@ -36,4 +36,11 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 kubectl completion bash >/etc/bash_completion.d/kubectl
 echo 'alias k=kubectl' >>~/.bashrc # set alias
 
+
+#######
+# HELM
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+# note: helm installed into /usr/local/bin/helm
   
