@@ -1,6 +1,7 @@
 #!/bin/bash
 # manage-kubernetes.sh
 
+az account list -o table 
 az account show -o table
 
 # AKS
@@ -112,4 +113,10 @@ function helloworld() { echo "hello wolrd $@"; command kubectl}
 echo 'hello world ' | sed 's/hello/world/'
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/#updating-resources
 kubectl get pod mypod -o yaml | sed 's/\(image: myimage\):.*$/\1:v4/' | kubectl replace -f -
+
+# openssl certificate
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
+openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
+
 
