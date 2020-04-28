@@ -52,3 +52,9 @@ brew hey #verify
 
 # jq 
 sudo apt install jq
+
+# xclip
+sudo apt xclip
+
+# display ssh key
+cat ~/.ssh/id_rsa.pub

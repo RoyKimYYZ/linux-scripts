@@ -1,18 +1,27 @@
 ##############################################
 # Install Docker
+sudo apt-get update
 sudo apt install docker.io
 service --status-all
 sudo service docker start
 sudo service docker status
-sudo systemctl start docker
+sudo /etc/init.d/docker start #sudo systemctl start docker
 sudo systemctl enable docker
 docker --version
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
-sudo apt install apt-transport-https ca-certificates curl software-properties-commony
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
 sudo systemctl status docker
+# https://blog.jayway.com/2017/04/19/running-docker-on-bash-on-windows/
+export DOCKER_HOST=tcp://192.168.0.102:2375  # your Docker IP
+export DOCKER_CERT_PATH=/mnt/c/Users/rkim/.docker/machine/certs
+export DOCKER_TLS_VERIFY=0
+docker -H tcp://0.0.0.0:2375 images
 
 # verify
 sudo docker run hello-world
