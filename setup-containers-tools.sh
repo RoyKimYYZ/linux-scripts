@@ -52,4 +52,5 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scr
 chmod 700 get_helm.sh
 ./get_helm.sh
 # note: helm installed into /usr/local/bin/helm
+ export PATH=/usr/local/bin:$PATH # sometimes needed when there is an error running helm command
   

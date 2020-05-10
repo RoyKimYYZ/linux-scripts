@@ -2,7 +2,7 @@
 # https://docs.microsoft.com/en-us/azure/aks/ingress-tls
 
 # AKS
-rgName='linux-demos'
+rgName='aks-solution'
 aksName='rkaks-demo'
 location='canadacentral'
 
@@ -23,7 +23,8 @@ kubectl get service -l app=nginx-ingress --namespace ingress-basic
 kubectl get service nginx-nginx-ingress-controller --namespace ingress-basic
 
 # Public IP address of your ingress controller
-publicIP='20.151.28.63'
+# Look up in resource group in Azure Portal
+publicIP='52.228.26.135'
 
 ## Add an A record to your DNS zone ##
 
@@ -77,11 +78,11 @@ spec:
 
 # Demo application
 helm repo add azure-samples https://azure-samples.github.io/helm-charts/
-namespace=aks-helloworld-app
-kubectl create namespace $namespace
-helm install aks-helloworld azure-samples/aks-helloworld --namespace $namespace
+akshelloworldnamespace=aks-helloworld
+kubectl create namespace $akshelloworldnamespace
+helm install aks-helloworld azure-samples/aks-helloworld --namespace $akshelloworldnamespace 
 helm install aks-helloworld-two azure-samples/aks-helloworld \
-    --namespace $namespace \
+    --namespace $akshelloworldnamespace \
     --set title="AKS Ingress Demo" \
     --set serviceName="aks-helloworld-two"
 
@@ -134,31 +135,24 @@ spec:
 #       - backend:
 #           serviceName: aks-helloworld
 #           servicePort: 80
-#         path: /static(/|$)(.*) " | kubectl apply --namespace aks-helloworld-app -f -
+#         path: /static(/|$)(.*) " | kubectl apply --namespace $akshelloworldnamespace -f -
 
 ---
 
-echo "kind: Service
-apiVersion: v1
-metadata:
-  name: aks-helloworld2
-spec:
-  type: ExternalName
-  externalName: aks-helloworld.aks-hellworld-app.svc.cluster.local
-  ports:
-  - port: 80 " | kubectl apply --namespace aks-helloworld-app -f -
+kubectl apply -f akshelloworld-hpa.yaml -n $akshelloworldnamespace #need hpa in same namespace as deployment or else <unknown> target
+
 
 # Verify certificate
 kubectl get certificate --namespace ingress-basic
-kubectl get certificate --namespace aks-helloworld-app
-kubectl describe certificate tls-secret --namespace aks-helloworld-app
+kubectl get certificate --namespace $akshelloworldnamespace 
+kubectl describe certificate tls-secret --namespace $akshelloworldnamespace 
 
 kubectl get ingress -n ingress-basic
-kubectl get ingress -n aks-helloworld-app
-kubectl get ingress -n aks-helloworld-app
-kubectl describe ingress -n aks-helloworld-app
-kubectl describe ingress hello-world-ingress -n aks-helloworld-app
-kubectl describe ingress hello-world-ingress-static -n aks-helloworld-app
+kubectl get ingress -n $akshelloworldnamespace 
+kubectl get ingress -n $akshelloworldnamespace 
+kubectl describe ingress -n $akshelloworldnamespace 
+kubectl describe ingress hello-world-ingress -n $akshelloworldnamespace 
+kubectl describe ingress hello-world-ingress-static -n $akshelloworldnamespace 
 
 kubectl get pods -n ingress-basic
 kubectl logs -n ingress-basic nginx-nginx-ingress-controller-74bf9bd9f5-tzs7k
