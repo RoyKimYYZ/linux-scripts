@@ -70,3 +70,25 @@ spec:
       - backend:
           serviceName: prometheus-operator-prometheus
           servicePort: 9090
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jaeger-ingress
+  namespace: istio-system
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+    - jaeger.rkim.ca # DNS name #add A record to 20.151.27.249
+    secretName: jaeger-tls-secret #Ensure unique certificate name or else get invalid fake certificate
+  rules:
+  - host: jaeger.rkim.ca
+    http:
+      paths:
+      - backend:
+          serviceName: jaeger-query
+          servicePort: 16686
