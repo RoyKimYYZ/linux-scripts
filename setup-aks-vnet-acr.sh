@@ -1,5 +1,5 @@
 #!/bin/bash
-# manage-kubernetes.sh
+# setup-aks-vnet-acr.sh
 
 az account show -o table
 az account list -o table
