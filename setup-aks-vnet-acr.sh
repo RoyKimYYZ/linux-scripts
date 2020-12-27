@@ -1,6 +1,6 @@
 #!/bin/bash
 # setup-aks-vnet-acr.sh
-
+ 
 az account show -o table
 az account list -o table
 az account set -s 'Visual Studio Enterprise'
