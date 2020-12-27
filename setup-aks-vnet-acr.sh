@@ -165,7 +165,7 @@ helm install aks-helloworld-two azure-samples/aks-helloworld \
     --set serviceName="aks-helloworld-two"
 
 
-AppDnsName=akshelloworld.rkim.ca
+AppDnsName=akshelloworld.rkim.ca #Your DNS url for your app.
 
 echo "apiVersion: extensions/v1beta1
 kind: Ingress
