@@ -2,3 +2,4 @@ manage-kubernetes-livecoding.sh
 ingress-dashboards.yaml
 prometheus-config-values.yaml
 deploy-wordpress/test-creds.txt
+deploy-wordpress/values-production.yaml

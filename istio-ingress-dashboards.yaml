@@ -15,7 +15,7 @@ type: Opaque
 kind: Secret
 metadata:
   name: kubernetes-dashboard-certs
-  namespace: kube-system
+  namespace: kubernetes-dashboard
   labels:
     addonmanager.kubernetes.io/mode : Reconcile
     app: kubernetes-dashboard

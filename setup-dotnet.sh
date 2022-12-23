@@ -6,21 +6,19 @@ sudo dpkg -i packages-microsoft-prod.deb
 # Install the .NET Core SDK
 sudo add-apt-repository universe
 sudo apt-get update
-sudo apt-get install apt-transport-https
+sudo apt-get install apt-transport-https -y
 sudo apt-get update
-sudo apt-get install dotnet-sdk-3.1
+sudo apt-get install dotnet-sdk-3.1 -y
 
 # Install the ASP.NET Core runtime
 sudo add-apt-repository universe
 sudo apt-get update
-sudo apt-get install apt-transport-https
-sudo apt-get update
-sudo apt-get install aspnetcore-runtime-3.1
+sudo apt-get install apt-transport-https -y
+sudo apt-get install aspnetcore-runtime-3.1 -y
 
 # Install the .NET Core runtime
 sudo add-apt-repository universe
 sudo apt-get update
 sudo apt-get install apt-transport-https
-sudo apt-get update
-sudo apt-get install dotnet-runtime-3.1
+sudo apt-get install dotnet-runtime-3.1 -y
 

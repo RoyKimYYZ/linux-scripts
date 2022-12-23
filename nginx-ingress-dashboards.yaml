@@ -1,6 +1,6 @@
 # mapping nginx with shared public routing to different dashboard app by path
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kiali-ingress
@@ -19,13 +19,17 @@ spec:
   - host: kiali.rkim.ca # DNS name
     http:
       paths:
-      - backend:
-          serviceName: kiali
-          servicePort: 20001
+      - pathType: Prefix
+        path: /(.*)
+        backend:
+          service:
+            name: kiali
+            port: 
+              number: 20001
 
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grafana-ingress
@@ -43,65 +47,98 @@ spec:
   - host: grafana.rkim.ca
     http:
       paths:
-      - backend:
-          serviceName: grafana
-          servicePort: 3000
+      - pathType: Prefix
+        path: /(.*)
+        backend:
+          service:
+            name: grafana
+            port: 
+              number: 3000
+
+# ---
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: prometheus-ingress
+#   namespace: monitoring
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+#     cert-manager.io/cluster-issuer: letsencrypt
+# spec:
+#   tls:
+#   - hosts:
+#     - prometheus.rkim.ca # DNS name #add A record to 20.151.27.249
+#     secretName: prometheus-tls-secret #Ensure unique certificate name or else get invalid fake certificate
+#   rules:
+#   - host: prometheus.rkim.ca
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: /(.*)
+#         backend:
+#           serviceName: prometheus-operator-prometheus
+#           servicePort: 9090
+
+#--- 
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: prometheus-operator-grafana-ingress
+#   namespace: monitoring
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+#     cert-manager.io/cluster-issuer: letsencrypt
+# spec:
+#   tls:
+#   - hosts:
+#     - grafana7.rkim.ca # DNS name #add A record to 20.151.27.249
+#     secretName: prometheus-operator-grafana-tls-secret #Ensure unique certificate name or else get invalid fake certificate
+#   rules:
+#   - host: grafana7.rkim.ca
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: /(.*)
+#         backend:
+#           serviceName: prometheus-operator-grafana
+#           servicePort: 3000
+
+# ---
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: jaeger-ingress
+#   namespace: istio-system
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+#     cert-manager.io/cluster-issuer: letsencrypt
+# spec:
+#   tls:
+#   - hosts:
+#     - jaeger.rkim.ca # DNS name #add A record to 20.151.27.249
+#     secretName: jaeger-tls-secret #Ensure unique certificate name or else get invalid fake certificate
+#   rules:
+#   - host: jaeger.rkim.ca
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: /(.*)
+#         backend:
+#           serviceName: jaeger-query
+#           servicePort: 16686
 
 ---
 
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: prometheus-ingress
-  namespace: monitoring
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-    cert-manager.io/cluster-issuer: letsencrypt
-spec:
-  tls:
-  - hosts:
-    - prometheus.rkim.ca # DNS name #add A record to 20.151.27.249
-    secretName: prometheus-tls-secret #Ensure unique certificate name or else get invalid fake certificate
-  rules:
-  - host: prometheus.rkim.ca
-    http:
-      paths:
-      - backend:
-          serviceName: prometheus-operator-prometheus
-          servicePort: 9090
-
----
-
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: jaeger-ingress
-  namespace: istio-system
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-    cert-manager.io/cluster-issuer: letsencrypt
-spec:
-  tls:
-  - hosts:
-    - jaeger.rkim.ca # DNS name #add A record to 20.151.27.249
-    secretName: jaeger-tls-secret #Ensure unique certificate name or else get invalid fake certificate
-  rules:
-  - host: jaeger.rkim.ca
-    http:
-      paths:
-      - backend:
-          serviceName: jaeger-query
-          servicePort: 16686
-
----
-
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kubernetes-dashboard-ingress
-  namespace: kube-system
+  namespace: kubernetes-dashboard
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
@@ -110,11 +147,15 @@ spec:
   tls:
   - hosts:
     - k8s.rkim.ca # DNS name #add A record to 20.151.27.249
-    secretName: k8s-tls-secret #Ensure unique certificate name or else get invalid fake certificate
+    secretName: k8s-tls-secret # Ensure unique certificate name or else get invalid fake certificate
   rules:
   - host: k8s.rkim.ca
     http:
       paths:
-      - backend:
-          serviceName: kubernetes-dashboard
-          servicePort: 8443
+      - pathType: Prefix
+        path: /(.*)
+        backend:
+          service:
+            name: kubernetes-dashboard
+            port: 
+              number: 8443

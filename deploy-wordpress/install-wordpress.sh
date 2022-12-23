@@ -36,6 +36,15 @@ kubectl get pvc
 kubectl get pods
 kubectl get svc
 
-wpadmin
-wpress
-#Uvj9d#6H0zJPgvnS^
+
+# Wordpress Prod Bitnami Helm Chart
+# https://docs.bitnami.com/tutorials/deploy-custom-wordpress-production-helm/#step-1-define-configuration-values-for-the-bitnami-wordpress-helm-chart
+curl -Lo values-production.yaml https://raw.githubusercontent.com/bitnami/charts/master/bitnami/wordpress/values-production.yaml
+helm repo add bitnami https://charts.bitnami.com/bitnami
+kubectl create namespace wordpress-prod
+helm install my-wordpress bitnami/wordpress  -f values-production.yaml -n wordpress-prod
+
+echo "WordPress URL: http://wordpress.rkim.ca/"
+   echo "$CLUSTER_IP  wordpress.rkim.ca" | sudo tee -a /etc/hosts
+kubectl get all -n wordpress-prod
+

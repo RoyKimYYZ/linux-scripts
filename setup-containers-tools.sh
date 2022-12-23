@@ -2,7 +2,7 @@
 # Install Docker
 sudo apt-get update
 sudo apt install docker.io
-service --status-all
+sudo service --status-all
 sudo service docker start
 sudo service docker status
 sudo /etc/init.d/docker start #sudo systemctl start docker
@@ -46,8 +46,9 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 echo 'alias k=kubectl' >>~/.bashrc # set alias
 
 
-#######
+##########
 # HELM
+##########
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
