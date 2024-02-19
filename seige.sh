@@ -10,7 +10,7 @@ siege -c 100 --time=90s http://20.151.27.249/
 siege -c 100 --time=900s http://bookinfo.rkim.ca/productpage
 
 siege -c 10 --time=900s http://akshelloworld.rkim.ca
-siege -c 10 --time=900s http://akshelloworld.rkim.ca/hellow-world-two
+siege -c 5 --time=900s http://akshelloworld.rkim.ca/hellow-world-two
 
 
 siege -c 250 --time=900s http://voting.rkim.ca

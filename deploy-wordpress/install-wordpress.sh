@@ -9,7 +9,7 @@ cat <<EOF >./kustomization.yaml
 secretGenerator:
 - name: mysql-pass
   literals:
-  - password=YOUR_PASSWORD
+  - password=pw1234
 EOF
 
 cat <<EOF >>./kustomization.yaml
@@ -48,3 +48,5 @@ echo "WordPress URL: http://wordpress.rkim.ca/"
    echo "$CLUSTER_IP  wordpress.rkim.ca" | sudo tee -a /etc/hosts
 kubectl get all -n wordpress-prod
 
+ helm repo add my-repo https://charts.bitnami.com/bitnami
+helm install my-release my-repo/redis

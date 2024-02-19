@@ -80,7 +80,7 @@ TOKEN=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kuber
 echo $TOKEN # | xclip --selection clipboard -o
 curl http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#/login
 
-kubectl get pods -n kubernetes-dashboard -o jsonpath | grep kubernetes-dashboard.*
+kubectl get pods -n kubernetes-dashboard  | grep kubernetes-dashboard.*
 kubectl port-forward $(kubectl get pods -n kubernetes-dashboard -o name | grep kubernetes) 8443:8443
 
 # Create a namespace for your ingress resources
