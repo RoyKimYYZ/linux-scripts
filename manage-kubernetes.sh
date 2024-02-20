@@ -168,3 +168,9 @@ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin
 openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
 
 
+# Kiali
+kubectl get pods -n istio-system 
+kubectl get service -n istio-system 
+
+kubectl port-forward svc/kiali 20001:20001 -n istio-system
+# open is browser http://localhost:20001/kiali/console/overview?duration=60&refresh=60000
