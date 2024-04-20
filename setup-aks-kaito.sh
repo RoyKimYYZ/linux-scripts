@@ -92,8 +92,22 @@ export AI_PROMPT="What is the capital of Canada?"
 export AI_PROMPT="What is meaning of life?"
 
 echo $AI_PROMPT
+kubectl run -it --rm --restart=Never curl --image=curlimages/curl -- curl -X POST http://$SERVICE_IP/chat \
+    -H "accept: application/json" -H "Content-Type: application/json" \
+    -d "{\"prompt\":\"$AI_PROMPT\",\"top_k\": 5, \"stream\": true}"
+
+
 kubectl run -it --rm --restart=Never curl --image=curlimages/curl -- curl -X POST http://$SERVICE_IP/chat -H "accept: application/json" -H "Content-Type: application/json" \
-    -d "{\"prompt\":\"$AI_PROMPT\"}"
+    -d '{ "messages": [{ "role": "system", "content": "You are a friendly assistant" }, { "role": "user", "content": "Why is pizza so good" }]}'
+
+--data '{ 
+    "model": "falcon-7b-instruct", 
+    "data": {
+        "prompt": "Write an article on first man on Moon.",
+        "top_k": 5,
+        "top_p": 0.1
+    }
+}'
 
 echo $SERVICE_PUBLIC_IP
 curl -X POST http://$SERVICE_PUBLIC_IP/chat -H "accept: application/json" -H "Content-Type: application/json" \
